@@ -77,28 +77,3 @@ export default {
 @import "./assets/style.css";
 @import url(https://unicons.iconscout.com/release/v4.0.0/css/line.css);
 </style>
-
-<!-- Task table -->
-<!-- <div class="task-box">
-        <table class="task">
-          <tr v-for="task in tasks" v-bind:key="task.id" class="task">
-            <td>
-              <input type="checkbox" v-model="task.done" />
-            </td>
-            <td>
-              <p :style="task.done && { textDecoration: 'line-through' }">
-                {{ task.name }}
-              </p>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="buttonDelete"
-                v-on:click="() => onDeleteTask(task.id)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </table>
-      </div> -->
