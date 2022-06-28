@@ -1,50 +1,45 @@
 <template>
-  <div id="app">
-    <!-- Create task form -->
-    <div class="creatNewTask">
-      <span>
-        <input type="text" class="inputTask" v-model="newTask" />
-        <button type="button" class="buttonAdd" v-on:click="onCreateNewTask">
-          Create new task
-        </button>
-      </span>
+  <div class="wrapper">
+    <div class="task-input">
+      <img class="image" src="./assets/MorDeeLogo40.png" alt="icon" />
+      <input type="text" placeholder="Add a new task" v-model="newTask"/>
+      <button type="button" class="buttonAdd" v-on:click="onCreateNewTask">
+        ADD
+      </button>
     </div>
 
-    <!-- Task table -->
-    <div class="taskTable">
-      <table>
-        <tr v-for="task in tasks" v-bind:key="task.id">
-          <td>
-            <input type="checkbox" v-model="task.done" />
-          </td>
-          <td>
-            <p :style="task.done && { textDecoration: 'line-through' }">
-              {{ task.name }}
-            </p>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="buttonDelete"
-              v-on:click="() => onDeleteTask(task.id)"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <ul class="task-box overflow">
+      <li class="task" v-for="task in tasks" v-bind:key="task.id">
+        <label>
+          <p class="completed">
+            {{ task.name }}
+          </p>
+        </label>
+        <div class="settings">
+          <i
+            v-on:click="() => onDeleteTask(task.id)"
+            class="ri delete-bin-fill"
+          ><Icon icon="ri:delete-bin-fill" /></i>
+        </div>
+      </li>
+      <li v-for="task in tasks" v-bind:key="task.id" class="task"></li>
+    </ul>
   </div>
 </template>
 
 <script>
+import { Icon } from '@iconify/vue';
 import axios from "axios";
 export default {
+  components: {
+		Icon,
+	},
   name: "App",
   data() {
     return {
       newTask: "",
       tasks: [],
+      logo: "",
     };
   },
   // Fetches posts when the component is created.
@@ -58,18 +53,20 @@ export default {
   },
   methods: {
     onCreateNewTask() {
-      this.tasks = [
-        {
-          id: new Date().getTime(),
-          name: this.newTask,
-          done: false,
-        },
-        ...this.tasks,
-      ];
-      this.newTask = "";
+      if (this.newTask != "") {
+        this.tasks = [
+          {
+            id: new Date().getTime(),
+            name: this.newTask,
+            done: false,
+          },
+          ...this.tasks,
+        ];
+        this.newTask = "";
+      }
     },
     onDeleteTask(id) {
-      console.log(id)
+      console.log(id);
       this.tasks = this.tasks.filter((task) => task.id !== id);
     },
   },
@@ -77,37 +74,31 @@ export default {
 </script>
 
 <style>
-#app {
-  text-align: center;
-}
-.creatNewTask {
-  margin-bottom: 10px;
-}
-.creatNewTask .inputTask {
-  width: 300px;
-  height: 28px;
-}
-.creatNewTask .buttonAdd {
-  height: 28px;
-  margin-left: 10px;
-}
-.taskTable table {
-  background-color: aliceblue;
-  margin: 0px auto;
-  width: 420px;
-}
-.taskTable p {
-  text-align: left;
-}
-
-body {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(315deg, #6fc3c4, #6be2a8);
-}
-::selection {
-  color: #fff;
-  background: #6fc3c4;
-}
+@import "./assets/style.css";
+@import url(https://unicons.iconscout.com/release/v4.0.0/css/line.css);
 </style>
+
+<!-- Task table -->
+<!-- <div class="task-box">
+        <table class="task">
+          <tr v-for="task in tasks" v-bind:key="task.id" class="task">
+            <td>
+              <input type="checkbox" v-model="task.done" />
+            </td>
+            <td>
+              <p :style="task.done && { textDecoration: 'line-through' }">
+                {{ task.name }}
+              </p>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="buttonDelete"
+                v-on:click="() => onDeleteTask(task.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div> -->
